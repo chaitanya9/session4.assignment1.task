@@ -1,0 +1,251 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\csgray\c0;\csgray\c100000;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 dataset file : employee_details.txt\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 101,Amitabh,bachan,20,20000,1\
+102,Shahrukh,khan,22,10000,2\
+103,Akshay,kumar,23,11000,3\
+104,Anubhav,singh,21,5000,4\
+105,Pawan,rathore,22,2500,5\
+106,Aamir,khan,25,25000,1\
+107,Salman,khan,21,17500,2\
+108,Ranbir,kapoor,22,14000,3\
+109,Katrina,kaif,23,1000,4\
+110,Priyanka,chopra,24,2000,5\
+111,Tushar,kapoor,20,500,1\
+112,Ajay,kumar,21,5000,2\
+113,Jubeen,yadav,20,1000,1\
+114,Madhuri,dixit,19,2000,2\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\
+file 2: employee_bonus.txt\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 101,Robin,22,25000,sales \
+102,Jaya,23,20000,admin \
+103,Maya,23,25000,sales \
+104,Alia,25,50000,admin \
+105,David,23,45000,sales \
+1066,Omar,30,30000,admin
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+1) Concat\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> emp = LOAD 'employee_details.txt' USING PigStorage(',') AS (emp_id:int, emp_firstname:chararray, emp_lastname:chararray,emp_age:int, emp_salary:int);\
+grunt> emp_name_concat = foreach emp Generate CONCAT (emp_firstname,emp_lastname);\
+grunt> dump emp_name_concat\
+\
+Output:\
+(Amitabhbachan)\
+(Shahrukhkhan)\
+(Akshaykumar)\
+(Anubhavsingh)\
+(Pawanrathore)\
+(Aamirkhan)\
+(Salmankhan)\
+(Ranbirkapoor)\
+(Katrinakaif)\
+(Priyankachopra)\
+(Tusharkapoor)\
+(Ajaykumar)\
+(Jubeenyadav)\
+(Madhuridixit)\
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+2) Tokenize\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> emp_name_tokenize = foreach emp Generate TOKENIZE (emp_firstname);\
+grunt> dump emp_name_tokenize\
+\
+output:\
+(\{(Amitabh)\})\
+(\{(Shahrukh)\})\
+(\{(Akshay)\})\
+(\{(Anubhav)\})\
+(\{(Pawan)\})\
+(\{(Aamir)\})\
+(\{(Salman)\})\
+(\{(Ranbir)\})\
+(\{(Katrina)\})\
+(\{(Priyanka)\})\
+(\{(Tushar)\})\
+(\{(Ajay)\})\
+(\{(Jubeen)\})\
+(\{(Madhuri)\})
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+3) Sum\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> emp_group = GROUP emp all;\
+grunt> dump emp_group
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 (all,\{(114,Madhuri,dixit,19,2000),(113,Jubeen,yadav,20,1000),(112,Ajay,kumar,21,5000),(111,Tushar,kapoor,20,500),(110,Priyanka,chopra,24,2000),(109,Katrina,kaif,23,1000),(108,Ranbir,kapoor,22,14000),(107,Salman,khan,21,17500),(106,Aamir,khan,25,25000),(105,Pawan,rathore,22,2500),(104,Anubhav,singh,21,5000),(103,Akshay,kumar,23,11000),(102,Shahrukh,khan,22,10000),(101,Amitabh,bachan,20,20000)\})\
+\
+grunt> emp_salary_sum = foreach emp_group Generate (emp.emp_id, emp.emp_salary), SUM(emp.emp_salary);\
+grunt> dump emp_salary_sum\
+\
+output:\
+((\{(114),(113),(112),(111),(110),(109),(108),(107),(106),(105),(104),(103),(102),(101)\},\{(2000),(1000),(5000),(500),(2000),(1000),(14000),(17500),(25000),(2500),(5000),(11000),(10000),(20000)\}),116500)\
+\
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 4) Min\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> emp_salary_min = foreach emp_group Generate (emp.emp_id, emp.emp_salary), MIN(emp.emp_salary);\
+grunt> dump emp_salary_min\
+\
+output:\
+((\{(114),(113),(112),(111),(110),(109),(108),(107),(106),(105),(104),(103),(102),(101)\},\{(2000),(1000),(5000),(500),(2000),(1000),(14000),(17500),(25000),(2500),(5000),(11000),(10000),(20000)\}),500)\
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+5) Max\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> emp_salary_max = foreach emp_group Generate (emp.emp_id, emp.emp_salary), MAX(emp.emp_salary);\
+grunt> dump emp_salary_max\
+\
+output:\
+((\{(114),(113),(112),(111),(110),(109),(108),(107),(106),(105),(104),(103),(102),(101)\},\{(2000),(1000),(5000),(500),(2000),(1000),(14000),(17500),(25000),(2500),(5000),(11000),(10000),(20000)\}),25000)
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+6) Limit\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> limit_data = LIMIT emp 5;\
+grunt> dump limit_data\
+\
+output:\
+(101,Amitabh,bachan,20,20000)\
+(102,Shahrukh,khan,22,10000)\
+(103,Akshay,kumar,23,11000)\
+(104,Anubhav,singh,21,5000)\
+(105,Pawan,rathore,22,2500)\
+\
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+7) Store\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> STORE emp INTO '/Users/Disha/output/';\
+\
+output:\
+Chaitanyas-MacBook-Pro:~ Disha$ ls /Users/Disha/output/\
+_SUCCESS	part-m-00000
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+8) Distinct\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> emp_distinct = DISTINCT emp;\
+grunt> dump emp_distinct\
+\
+output:\
+(101,Amitabh,bachan,20,20000)\
+(102,Shahrukh,khan,22,10000)\
+(103,Akshay,kumar,23,11000)\
+(104,Anubhav,singh,21,5000)\
+(105,Pawan,rathore,22,2500)\
+(106,Aamir,khan,25,25000)\
+(107,Salman,khan,21,17500)\
+(108,Ranbir,kapoor,22,14000)\
+(109,Katrina,kaif,23,1000)\
+(110,Priyanka,chopra,24,2000)\
+(111,Tushar,kapoor,20,500)\
+(112,Ajay,kumar,21,5000)\
+(113,Jubeen,yadav,20,1000)\
+(114,Madhuri,dixit,19,2000)\
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 9) Flatten\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> cogroup_data = COGROUP emp by emp_age, emp_bonus by emp_age;\
+grunt> dump cogroup_data\
+\
+(19,\{(114,Madhuri,dixit,19,2000)\},\{\})\
+(20,\{(101,Amitabh,bachan,20,20000),(113,Jubeen,yadav,20,1000),(111,Tushar,kapoor,20,500)\},\{\})\
+(21,\{(112,Ajay,kumar,21,5000),(104,Anubhav,singh,21,5000),(107,Salman,khan,21,17500)\},\{\})\
+(22,\{(108,Ranbir,kapoor,22,14000),(105,Pawan,rathore,22,2500),(102,Shahrukh,khan,22,10000)\},\{(101,Robin,22,25000)\})\
+(23,\{(109,Katrina,kaif,23,1000),(103,Akshay,kumar,23,11000)\},\{(105,David,23,45000),(103,Maya,23,25000),(102,Jaya,23,20000)\})\
+(24,\{(110,Priyanka,chopra,24,2000)\},\{\})\
+(25,\{(106,Aamir,khan,25,25000)\},\{(104,Alia,25,50000)\})\
+(30,\{\},\{(1066,Omar,30,30000)\})\
+\
+grunt> flatten_word = foreach cogroup_data generate FLATTEN(emp);\
+grunt> dump flatten_word\
+\
+output:\
+(114,Madhuri,dixit,19,2000)\
+(101,Amitabh,bachan,20,20000)\
+(113,Jubeen,yadav,20,1000)\
+(111,Tushar,kapoor,20,500)\
+(112,Ajay,kumar,21,5000)\
+(104,Anubhav,singh,21,5000)\
+(107,Salman,khan,21,17500)\
+(108,Ranbir,kapoor,22,14000)\
+(105,Pawan,rathore,22,2500)\
+(102,Shahrukh,khan,22,10000)\
+(109,Katrina,kaif,23,1000)\
+(103,Akshay,kumar,23,11000)\
+(110,Priyanka,chopra,24,2000)\
+(106,Aamir,khan,25,25000)
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+10) IsEmpty\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 grunt> emp = LOAD 'employee_details.txt' USING PigStorage(',') AS (emp_id:int, emp_firstname:chararray, emp_lastname:chararray,emp_age:int, emp_salary:int);\
+grunt> emp_bonus = LOAD 'employee_bonus.txt' USING PigStorage(',') AS (emp_id:int, emp_firstname:chararray, emp_age:int, emp_salary:int);\
+grunt> cogroup_data = COGROUP emp by emp_age, emp_bonus by emp_age;\
+grunt> dump cogroup_data\
+\
+(19,\{(114,Madhuri,dixit,19,2000)\},\{\})\
+(20,\{(101,Amitabh,bachan,20,20000),(113,Jubeen,yadav,20,1000),(111,Tushar,kapoor,20,500)\},\{\})\
+(21,\{(112,Ajay,kumar,21,5000),(104,Anubhav,singh,21,5000),(107,Salman,khan,21,17500)\},\{\})\
+(22,\{(108,Ranbir,kapoor,22,14000),(105,Pawan,rathore,22,2500),(102,Shahrukh,khan,22,10000)\},\{(101,Robin,22,25000)\})\
+(23,\{(109,Katrina,kaif,23,1000),(103,Akshay,kumar,23,11000)\},\{(105,David,23,45000),(103,Maya,23,25000),(102,Jaya,23,20000)\})\
+(24,\{(110,Priyanka,chopra,24,2000)\},\{\})\
+(25,\{(106,Aamir,khan,25,25000)\},\{(104,Alia,25,50000)\})\
+(30,\{\},\{(1066,Omar,30,30000)\})\
+\
+grunt> isempty_data = filter cogroup_data by IsEmpty(emp);\
+grunt> dump isempty_dat\
+\
+output:\
+(30,\{\},\{(1066,Omar,30,30000)\})
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+}
